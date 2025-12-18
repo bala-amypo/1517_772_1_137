@@ -43,7 +43,7 @@ public class UserAccount {
         this.updatedAt = new Timestamp(System.currentTimeMillis());
     }
 
-    /* ================= GETTERS ================= */
+    /* ========= GETTERS ========= */
 
     public Long getId() {
         return id;
@@ -73,7 +73,7 @@ public class UserAccount {
         return updatedAt;
     }
 
-    /* ================= SETTERS ================= */
+    /* ========= SETTERS ========= */
 
     public void setEmail(String email) {
         this.email = email;
