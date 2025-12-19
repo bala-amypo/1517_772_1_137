@@ -2,42 +2,44 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Role;
 import com.example.demo.service.RoleService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/roles")
+@Tag(name = "Roles")
 public class RoleController {
 
-    private final RoleService service;
+    private final RoleService roleService;
 
-    public RoleController(RoleService service) {
-        this.service = service;
+    public RoleController(RoleService roleService) {
+        this.roleService = roleService;
     }
 
     @PostMapping
-    public Role create(@RequestBody Role role) {
-        return service.create(role);
+    public Role createRole(@RequestBody Role role) {
+        return roleService.createRole(role);
     }
 
     @PutMapping("/{id}")
-    public Role update(@PathVariable Long id, @RequestBody Role role) {
-        return service.update(id, role);
+    public Role updateRole(@PathVariable Long id, @RequestBody Role role) {
+        return roleService.updateRole(id, role);
     }
 
     @GetMapping("/{id}")
-    public Role getById(@PathVariable Long id) {
-        return service.getById(id);
+    public Role getRole(@PathVariable Long id) {
+        return roleService.getRoleById(id);
     }
 
     @GetMapping
-    public List<Role> getAll() {
-        return service.getAll();
+    public List<Role> getAllRoles() {
+        return roleService.getAllRoles();
     }
 
     @PutMapping("/{id}/deactivate")
-    public void deactivate(@PathVariable Long id) {
-        service.deactivate(id);
+    public void deactivateRole(@PathVariable Long id) {
+        roleService.deactivateRole(id);
     }
 }

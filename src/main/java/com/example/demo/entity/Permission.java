@@ -3,9 +3,10 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "permissions", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "permissionKey")
-})
+@Table(
+    name = "permissions",
+    uniqueConstraints = @UniqueConstraint(columnNames = "permissionKey")
+)
 public class Permission {
 
     @Id
@@ -15,9 +16,20 @@ public class Permission {
     @Column(nullable = false, unique = true)
     private String permissionKey;
 
+    @Column
     private String description;
 
+    @Column(nullable = false)
     private Boolean active = true;
+
+    public Permission() {
+    }
+
+    public Permission(String permissionKey, String description, Boolean active) {
+        this.permissionKey = permissionKey;
+        this.description = description;
+        this.active = active != null ? active : true;
+    }
 
     public Long getId() {
         return id;

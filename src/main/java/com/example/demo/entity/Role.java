@@ -3,9 +3,10 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "roles", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "roleName")
-})
+@Table(
+    name = "roles",
+    uniqueConstraints = @UniqueConstraint(columnNames = "roleName")
+)
 public class Role {
 
     @Id
@@ -15,9 +16,20 @@ public class Role {
     @Column(nullable = false, unique = true)
     private String roleName;
 
+    @Column
     private String description;
 
+    @Column(nullable = false)
     private Boolean active = true;
+
+    public Role() {
+    }
+
+    public Role(String roleName, String description, Boolean active) {
+        this.roleName = roleName;
+        this.description = description;
+        this.active = active != null ? active : true;
+    }
 
     public Long getId() {
         return id;
