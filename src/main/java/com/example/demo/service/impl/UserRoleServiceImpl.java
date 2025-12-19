@@ -33,7 +33,7 @@ public class UserRoleServiceImpl implements UserRoleService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         if (!Boolean.TRUE.equals(user.getActive())) {
-            throw new IllegalStateException("Cannot assign role to inactive user");
+            throw new BadRequestException("Cannot assign role to inactive user");
         }
 
         Role role = roleRepository.findById(mapping.getRole().getId())
