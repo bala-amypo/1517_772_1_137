@@ -4,6 +4,7 @@ import com.example.demo.entity.Role;
 import com.example.demo.entity.UserAccount;
 import com.example.demo.entity.UserRole;
 import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.exception.BadRequestException;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.repository.UserRoleRepository;
