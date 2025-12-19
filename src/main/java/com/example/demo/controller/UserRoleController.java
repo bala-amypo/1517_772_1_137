@@ -2,37 +2,39 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.UserRole;
 import com.example.demo.service.UserRoleService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/user-roles")
+@Tag(name = "User Roles")
 public class UserRoleController {
 
-    private final UserRoleService service;
+    private final UserRoleService userRoleService;
 
-    public UserRoleController(UserRoleService service) {
-        this.service = service;
+    public UserRoleController(UserRoleService userRoleService) {
+        this.userRoleService = userRoleService;
     }
 
     @PostMapping
-    public UserRole assign(@RequestBody UserRole mapping) {
-        return service.create(mapping);
-    }
-
-    @GetMapping("/{id}")
-    public UserRole getById(@PathVariable Long id) {
-        return service.getById(id);
+    public UserRole assignRole(@RequestBody UserRole mapping) {
+        return userRoleService.assignRole(mapping);
     }
 
     @GetMapping("/user/{userId}")
-    public List<UserRole> getByUser(@PathVariable Long userId) {
-        return service.getByUser(userId);
+    public List<UserRole> getRolesForUser(@PathVariable Long userId) {
+        return userRoleService.getRolesForUser(userId);
+    }
+
+    @GetMapping("/{id}")
+    public UserRole getMapping(@PathVariable Long id) {
+        return userRoleService.getMappingById(id);
     }
 
     @DeleteMapping("/{id}")
-    public void remove(@PathVariable Long id) {
-        service.delete(id);
+    public void removeRole(@PathVariable Long id) {
+        userRoleService.removeRole(id);
     }
 }
