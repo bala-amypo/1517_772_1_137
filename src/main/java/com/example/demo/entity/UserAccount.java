@@ -4,10 +4,9 @@ import jakarta.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(
-    name = "user_accounts",
-    uniqueConstraints = @UniqueConstraint(columnNames = "email")
-)
+@Table(name = "user_accounts", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")
+})
 public class UserAccount {
 
     @Id
@@ -18,32 +17,24 @@ public class UserAccount {
     private String email;
 
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
     private String fullName;
 
-    @Column(nullable = false)
     private Boolean active = true;
 
-    @Column(updatable = false)
     private Timestamp createdAt;
 
     private Timestamp updatedAt;
 
     @PrePersist
     protected void onCreate() {
-        Timestamp now = new Timestamp(System.currentTimeMillis());
-        this.createdAt = now;
-        this.updatedAt = now;
+        createdAt = new Timestamp(System.currentTimeMillis());
+        updatedAt = createdAt;
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedAt = new Timestamp(System.currentTimeMillis());
+        updatedAt = new Timestamp(System.currentTimeMillis());
     }
-
-    /* ========= GETTERS ========= */
 
     public Long getId() {
         return id;
@@ -53,16 +44,24 @@ public class UserAccount {
         return email;
     }
 
-    public String getPassword() {
-        return password;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFullName() {
         return fullName;
     }
 
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
     public Boolean getActive() {
         return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public Timestamp getCreatedAt() {
@@ -71,23 +70,5 @@ public class UserAccount {
 
     public Timestamp getUpdatedAt() {
         return updatedAt;
-    }
-
-    /* ========= SETTERS ========= */
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
     }
 }
