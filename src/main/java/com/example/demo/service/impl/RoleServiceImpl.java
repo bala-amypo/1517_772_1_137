@@ -20,7 +20,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role createRole(Role role) {
         if (roleRepository.findByRoleName(role.getRoleName()).isPresent()) {
-            throw new IllegalArgumentException("Role name already exists");
+            throw new BadRequestException("Role name already exists");
         }
         return roleRepository.save(role);
     }

@@ -20,7 +20,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public UserAccount createUser(UserAccount user) {
         if (userAccountRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
+            throw new BadRequestException("Email already exists");
         }
         return userAccountRepository.save(user);
     }

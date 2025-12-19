@@ -20,7 +20,7 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public Permission createPermission(Permission permission) {
         if (permissionRepository.findByPermissionKey(permission.getPermissionKey()).isPresent()) {
-            throw new IllegalArgumentException("Permission key already exists");
+            throw new BadRequestException("Permission key already exists");
         }
         return permissionRepository.save(permission);
     }
