@@ -17,22 +17,22 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     @Override
-    public UserRole assignRole(UserRole mapping) {
-        return repository.save(mapping);
+    public UserRole save(UserRole userRole) {
+        return repository.save(userRole);
     }
 
     @Override
-    public List<UserRole> getAllMappings() {
+    public UserRole getById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<UserRole> getAll() {
         return repository.findAll();
     }
 
     @Override
-    public UserRole getMappingById(Long id) {
-        return repository.findById(id).orElseThrow();
-    }
-
-    @Override
-    public void removeRole(Long id) {
+    public void delete(Long id) {
         repository.deleteById(id);
     }
 }

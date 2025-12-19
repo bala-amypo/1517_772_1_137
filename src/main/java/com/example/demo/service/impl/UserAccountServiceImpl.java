@@ -17,32 +17,28 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount createUser(UserAccount user) {
+    public UserAccount save(UserAccount user) {
         return repository.save(user);
     }
 
     @Override
-    public UserAccount updateUser(Long id, UserAccount user) {
-        UserAccount existing = repository.findById(id).orElseThrow();
-        existing.setEmail(user.getEmail());
-        existing.setFullName(user.getFullName());
-        return repository.save(existing);
+    public UserAccount update(Long id, UserAccount user) {
+        user.setId(id);
+        return repository.save(user);
     }
 
     @Override
-    public UserAccount getUserById(Long id) {
-        return repository.findById(id).orElseThrow();
+    public UserAccount getById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
     @Override
-    public List<UserAccount> getAllUsers() {
+    public List<UserAccount> getAll() {
         return repository.findAll();
     }
 
     @Override
-    public void deactivateUser(Long id) {
-        UserAccount user = repository.findById(id).orElseThrow();
-        user.setActive(false);
-        repository.save(user);
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 }

@@ -17,32 +17,28 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role createRole(Role role) {
+    public Role save(Role role) {
         return repository.save(role);
     }
 
     @Override
-    public Role updateRole(Long id, Role role) {
-        Role existing = repository.findById(id).orElseThrow();
-        existing.setRoleName(role.getRoleName());
-        existing.setDescription(role.getDescription());
-        return repository.save(existing);
+    public Role update(Long id, Role role) {
+        role.setId(id);
+        return repository.save(role);
     }
 
     @Override
-    public Role getRoleById(Long id) {
-        return repository.findById(id).orElseThrow();
+    public Role getById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
     @Override
-    public List<Role> getAllRoles() {
+    public List<Role> getAll() {
         return repository.findAll();
     }
 
     @Override
-    public void deactivateRole(Long id) {
-        Role role = repository.findById(id).orElseThrow();
-        role.setActive(false);
-        repository.save(role);
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 }
