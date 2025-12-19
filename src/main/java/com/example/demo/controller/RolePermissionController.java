@@ -2,37 +2,39 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.RolePermission;
 import com.example.demo.service.RolePermissionService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/role-permissions")
+@Tag(name = "Role Permissions")
 public class RolePermissionController {
 
-    private final RolePermissionService service;
+    private final RolePermissionService rolePermissionService;
 
-    public RolePermissionController(RolePermissionService service) {
-        this.service = service;
+    public RolePermissionController(RolePermissionService rolePermissionService) {
+        this.rolePermissionService = rolePermissionService;
     }
 
     @PostMapping
-    public RolePermission grant(@RequestBody RolePermission mapping) {
-        return service.create(mapping);
-    }
-
-    @GetMapping("/{id}")
-    public RolePermission getById(@PathVariable Long id) {
-        return service.getById(id);
+    public RolePermission grantPermission(@RequestBody RolePermission mapping) {
+        return rolePermissionService.grantPermission(mapping);
     }
 
     @GetMapping("/role/{roleId}")
-    public List<RolePermission> getByRole(@PathVariable Long roleId) {
-        return service.getByRole(roleId);
+    public List<RolePermission> getPermissionsForRole(@PathVariable Long roleId) {
+        return rolePermissionService.getPermissionsForRole(roleId);
+    }
+
+    @GetMapping("/{id}")
+    public RolePermission getMapping(@PathVariable Long id) {
+        return rolePermissionService.getMappingById(id);
     }
 
     @DeleteMapping("/{id}")
-    public void revoke(@PathVariable Long id) {
-        service.delete(id);
+    public void revokePermission(@PathVariable Long id) {
+        rolePermissionService.revokePermission(id);
     }
 }

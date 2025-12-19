@@ -1,7 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 @Table(name = "user_roles")
@@ -12,18 +12,27 @@ public class UserRole {
     private Long id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private UserAccount user;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    private Timestamp assignedAt;
+    @Column(nullable = false, updatable = false)
+    private Instant assignedAt;
+
+    public UserRole() {
+    }
+
+    public UserRole(UserAccount user, Role role) {
+        this.user = user;
+        this.role = role;
+    }
 
     @PrePersist
-    protected void onCreate() {
-        assignedAt = new Timestamp(System.currentTimeMillis());
+    public void onAssign() {
+        this.assignedAt = Instant.now();
     }
 
     public Long getId() {
@@ -46,7 +55,7 @@ public class UserRole {
         this.role = role;
     }
 
-    public Timestamp getAssignedAt() {
+    public Instant getAssignedAt() {
         return assignedAt;
     }
 }
