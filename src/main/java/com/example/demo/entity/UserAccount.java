@@ -1,12 +1,13 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
-@Table(name = "user_accounts", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email")
-})
+@Table(
+    name = "user_accounts",
+    uniqueConstraints = @UniqueConstraint(columnNames = "email")
+)
 public class UserAccount {
 
     @Id
@@ -19,21 +20,40 @@ public class UserAccount {
     @Column(nullable = false)
     private String fullName;
 
+    @Column
+    private String password;
+
+    @Column(nullable = false)
     private Boolean active = true;
 
-    private Timestamp createdAt;
+    @Column(nullable = false, updatable = false)
+    private Instant createdAt;
 
-    private Timestamp updatedAt;
+    @Column(nullable = false)
+    private Instant updatedAt;
+
+    public UserAccount() {
+    }
+
+    public UserAccount(String email, String fullName, Boolean active) {
+        this.email = email;
+        this.fullName = fullName;
+        this.active = active != null ? active : true;
+    }
 
     @PrePersist
-    protected void onCreate() {
-        createdAt = new Timestamp(System.currentTimeMillis());
-        updatedAt = createdAt;
+    public void onCreate() {
+        Instant now = Instant.now();
+        this.createdAt = now;
+        this.updatedAt = now;
+        if (this.active == null) {
+            this.active = true;
+        }
     }
 
     @PreUpdate
-    protected void onUpdate() {
-        updatedAt = new Timestamp(System.currentTimeMillis());
+    public void onUpdate() {
+        this.updatedAt = Instant.now();
     }
 
     public Long getId() {
@@ -56,6 +76,14 @@ public class UserAccount {
         this.fullName = fullName;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Boolean getActive() {
         return active;
     }
@@ -64,11 +92,11 @@ public class UserAccount {
         this.active = active;
     }
 
-    public Timestamp getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
 
-    public Timestamp getUpdatedAt() {
+    public Instant getUpdatedAt() {
         return updatedAt;
     }
 }
