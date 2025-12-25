@@ -58,4 +58,9 @@ public class RolePermission {
     public Instant getGrantedAt() {
         return grantedAt;
     }
+    @PrePersist
+    public void prePersist() {
+        this.grantedAt = Instant.now();
+    }
+
 }

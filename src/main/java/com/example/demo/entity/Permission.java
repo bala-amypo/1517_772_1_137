@@ -63,7 +63,7 @@ public class Permission {
     }
 
     public boolean isActive() {
-    return Boolean.TRUE.equals(this.active);
-}
+        return Boolean.TRUE.equals(this.active);
+    }
 
 }

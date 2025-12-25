@@ -58,4 +58,9 @@ public class UserRole {
     public Instant getAssignedAt() {
         return assignedAt;
     }
+    @PrePersist
+    public void prePersist() {
+        this.assignedAt = Instant.now();
+    }
+
 }
