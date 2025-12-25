@@ -62,5 +62,8 @@ public class UserRole {
     public void prePersist() {
         this.assignedAt = Instant.now();
     }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 }

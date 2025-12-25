@@ -62,5 +62,9 @@ public class RolePermission {
     public void prePersist() {
         this.grantedAt = Instant.now();
     }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
 }
