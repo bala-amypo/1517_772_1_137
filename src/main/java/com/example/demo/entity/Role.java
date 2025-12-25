@@ -58,4 +58,12 @@ public class Role {
     public void setActive(Boolean active) {
         this.active = active;
     }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public boolean isActive() {
+        return Boolean.TRUE.equals(this.active);
+    }
+
 }
