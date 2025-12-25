@@ -99,4 +99,26 @@ public class UserAccount {
     public Instant getUpdatedAt() {
         return updatedAt;
     }
+    public void setId(Long id) {
+    this.id = id;
+}
+
+public boolean isActive() {
+    return Boolean.TRUE.equals(this.active);
+}
+
+@PrePersist
+public void prePersist() {
+    this.createdAt = Instant.now();
+    this.updatedAt = Instant.now();
+    if (this.active == null) {
+        this.active = true;
+    }
+}
+
+@PreUpdate
+public void preUpdate() {
+    this.updatedAt = Instant.now();
+}
+
 }
