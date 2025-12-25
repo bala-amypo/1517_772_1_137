@@ -28,25 +28,27 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) {
 
         UserAccount user = userAccountRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        if (!Boolean.TRUE.equals(user.getActive())) {
-            throw new UsernameNotFoundException("User is inactive");
-        }
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         List<UserRole> userRoles = userRoleRepository.findByUser_Id(user.getId());
 
         List<GrantedAuthority> authorities = userRoles.stream()
-                .map(userRole -> new SimpleGrantedAuthority(userRole.getRole().getRoleName()))
-                .collect(Collectors.toList());
+            .filter(ur -> ur.getRole().isActive())
+            .map(ur -> new SimpleGrantedAuthority(ur.getRole().getRoleName()))
+            .toList();
 
-        return new User(
-                user.getEmail(),
-                user.getPassword(),
-                authorities
+        return new org.springframework.security.core.userdetails.User(
+            user.getEmail(),
+            user.getPassword(),
+            user.isActive(),   // enabled
+            true,              // accountNonExpired
+            true,              // credentialsNonExpired
+            true,              // accountNonLocked
+            authorities
         );
     }
+
 }
