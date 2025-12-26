@@ -63,11 +63,13 @@ public class UserRoleServiceImpl implements UserRoleService {
    @Override
     public void removeRole(Long mappingId) {
 
-        UserRole mapping = userRoleRepository.findById(mappingId)
-            .orElseThrow(() -> new ResourceNotFoundException("UserRole not found"));
-
-        userRoleRepository.delete(mapping);
+    if (!userRoleRepository.existsById(mappingId)) {
+        throw new ResourceNotFoundException("UserRole not found");
     }
+
+    userRoleRepository.deleteById(mappingId);
+    }
+
 
 
 }
