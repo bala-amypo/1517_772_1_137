@@ -41,13 +41,14 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .collect(Collectors.toList());
 
         return new User(
-                user.getEmail(),
-                user.getPassword(),
-                true,
-                true,
-                true,
-                true,
-                authorities
+            user.getEmail(),
+            user.getPassword(),
+            user.getActive(),  // ✅ THIS IS THE KEY
+            true,
+            true,
+            true,
+            authorities
         );
+
     }
 }
