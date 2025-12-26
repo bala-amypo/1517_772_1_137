@@ -1,9 +1,8 @@
 package com.example.demo.security;
 
-import com.example.demo.entity.UserAccount;
-import com.example.demo.entity.UserRole;
-import com.example.demo.repository.UserAccountRepository;
-import com.example.demo.repository.UserRoleRepository;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -12,8 +11,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import com.example.demo.entity.UserAccount;
+import com.example.demo.entity.UserRole;
+import com.example.demo.repository.UserAccountRepository;
+import com.example.demo.repository.UserRoleRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -31,25 +32,22 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) {
 
         UserAccount user = userAccountRepository.findByEmail(email)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         List<UserRole> userRoles = userRoleRepository.findByUser_Id(user.getId());
 
         List<GrantedAuthority> authorities = userRoles.stream()
-            .map(ur -> new SimpleGrantedAuthority(ur.getRole().getRoleName()))
-            .collect(Collectors.toList());
+                .map(ur -> new SimpleGrantedAuthority(ur.getRole().getRoleName()))
+                .collect(Collectors.toList());
 
-        return new org.springframework.security.core.userdetails.User(
-            user.getEmail(),
-            user.getPassword(),
-            true,   // enabled MUST be true
-            true,
-            true,
-            true,
-            authorities
+        return new User(
+                user.getEmail(),
+                user.getPassword(),
+                true,
+                true,
+                true,
+                true,
+                authorities
         );
     }
-
-
-
 }
