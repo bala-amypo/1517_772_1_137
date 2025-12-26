@@ -40,15 +40,16 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .map(ur -> new SimpleGrantedAuthority(ur.getRole().getRoleName()))
                 .collect(Collectors.toList());
 
-        return new User(
-            user.getEmail(),
-            user.getPassword(),
-            user.getActive(),  // ✅ THIS IS THE KEY
-            true,
-            true,
-            true,
-            authorities
-        );
+        return new org.springframework.security.core.userdetails.User(
+        user.getEmail(),
+        user.getPassword(),
+        Boolean.TRUE.equals(user.getActive()), // ✅ FINAL FIX
+        true,
+        true,
+        true,
+        authorities
+);
+
 
     }
 }
