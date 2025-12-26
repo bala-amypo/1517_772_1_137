@@ -30,13 +30,18 @@ public class UserRole {
         this.role = role;
     }
 
+    // ✅ ONLY ONE @PrePersist
     @PrePersist
-    public void onAssign() {
+    public void prePersist() {
         this.assignedAt = Instant.now();
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public UserAccount getUser() {
@@ -58,12 +63,4 @@ public class UserRole {
     public Instant getAssignedAt() {
         return assignedAt;
     }
-    @PrePersist
-    public void prePersist() {
-        this.assignedAt = Instant.now();
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 }
