@@ -36,21 +36,20 @@ public class CustomUserDetailsService implements UserDetailsService {
         List<UserRole> userRoles = userRoleRepository.findByUser_Id(user.getId());
 
         List<GrantedAuthority> authorities = userRoles.stream()
-            .filter(ur -> ur.getRole().isActive())
             .map(ur -> new SimpleGrantedAuthority(ur.getRole().getRoleName()))
             .collect(Collectors.toList());
 
         return new org.springframework.security.core.userdetails.User(
-        user.getEmail(),
-        user.getPassword(),
-        true,   
-        true,
-        true,
-        true,
-        authorities
-);
-
+            user.getEmail(),
+            user.getPassword(),
+            true,   // enabled MUST be true
+            true,
+            true,
+            true,
+            authorities
+        );
     }
+
 
 
 }
