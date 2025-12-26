@@ -42,13 +42,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(
             user.getEmail(),
-            user.getPassword(),
-            Boolean.TRUE.equals(user.getActive()), 
+            user.getPassword() == null ? "" : user.getPassword(), // 🔥 FIX
+            Boolean.TRUE.equals(user.getActive()),
             true,
             true,
             true,
             authorities
-);
+        );
+
 
 
     }
