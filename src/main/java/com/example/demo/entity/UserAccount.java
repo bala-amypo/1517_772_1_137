@@ -41,8 +41,9 @@ public class UserAccount {
         this.active = active != null ? active : true;
     }
 
+    // ✅ ONLY ONE @PrePersist
     @PrePersist
-    public void onCreate() {
+    public void prePersist() {
         Instant now = Instant.now();
         this.createdAt = now;
         this.updatedAt = now;
@@ -51,13 +52,18 @@ public class UserAccount {
         }
     }
 
+    // ✅ ONLY ONE @PreUpdate
     @PreUpdate
-    public void onUpdate() {
+    public void preUpdate() {
         this.updatedAt = Instant.now();
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -92,6 +98,10 @@ public class UserAccount {
         this.active = active;
     }
 
+    public boolean isActive() {
+        return Boolean.TRUE.equals(this.active);
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
     }
@@ -99,26 +109,4 @@ public class UserAccount {
     public Instant getUpdatedAt() {
         return updatedAt;
     }
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public boolean isActive() {
-        return Boolean.TRUE.equals(this.active);
-    }
-
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = Instant.now();
-        this.updatedAt = Instant.now();
-        if (this.active == null) {
-            this.active = true;
-        }
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = Instant.now();
-    }
-
 }
