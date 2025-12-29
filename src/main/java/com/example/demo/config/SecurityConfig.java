@@ -51,12 +51,24 @@ public class SecurityConfig {
                     session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(auth -> auth
+
+                    // ✅ Public endpoints
                     .requestMatchers(
                             "/auth/**",
                             "/swagger-ui/**",
                             "/v3/api-docs/**",
                             "/simple-status"
                     ).permitAll()
+
+                    // ✅ Bootstrap endpoints (REQUIRED)
+                    .requestMatchers(
+                            "/api/roles/**",
+                            "/api/permissions/**",
+                            "/api/user-roles/**",
+                            "/api/role-permissions/**"
+                    ).permitAll()
+
+                    // 🔐 Everything else needs JWT
                     .anyRequest().authenticated()
             )
             .addFilterBefore(
